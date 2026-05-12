@@ -9,6 +9,11 @@ class GraphExcelError(Exception):
     pass
 
 
+class TokenExpiredError(GraphExcelError):
+    """Raised when Graph API returns 401 — access token is expired or invalid."""
+    pass
+
+
 def _headers(token):
     return {
         "Authorization": f"Bearer {token}",
@@ -19,7 +24,6 @@ def _headers(token):
 def graph_request(token, method, path, **kwargs):
     url = f"{GRAPH_ROOT}{path}"
 
-    # Merge default headers with optional extra headers
     default_headers = _headers(token)
     extra_headers = kwargs.pop("headers", {})
     merged_headers = {**default_headers, **extra_headers}
@@ -31,6 +35,11 @@ def graph_request(token, method, path, **kwargs):
         timeout=60,
         **kwargs
     )
+
+    if response.status_code == 401:
+        raise TokenExpiredError(
+            "Graph API returned 401 — access token expired or invalid."
+        )
 
     if not response.ok:
         raise GraphExcelError(f"Graph API error {response.status_code}: {response.text}")
