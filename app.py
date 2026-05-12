@@ -29,19 +29,32 @@ from graph_excel import (
 app = Flask(__name__)
 app.secret_key = FLASK_SECRET_KEY
 
-# Server-side filesystem session — keeps MSAL cache off the cookie and
-# removes the 4 KB cookie-size limit that would drop the refresh token.
-_SESSION_DIR = os.path.join(os.path.dirname(__file__), ".flask_session")
+
+# Server-side filesystem session
+# Local: use .flask_session
+# Vercel: use /tmp because serverless filesystem should not write to project directory
+IS_VERCEL = os.environ.get("VERCEL") == "1"
+
+_SESSION_DIR = (
+    os.path.join("/tmp", "flask_session")
+    if IS_VERCEL
+    else os.path.join(os.path.dirname(__file__), ".flask_session")
+)
+
 os.makedirs(_SESSION_DIR, exist_ok=True)
+
+
 
 app.config.update(
     SESSION_TYPE="filesystem",
     SESSION_FILE_DIR=_SESSION_DIR,
-    SESSION_FILE_THRESHOLD=500,          # max session files before cleanup
+    SESSION_FILE_THRESHOLD=500,
     PERMANENT_SESSION_LIFETIME=timedelta(days=30),
     SESSION_COOKIE_HTTPONLY=True,
-    SESSION_COOKIE_SAMESITE="Lax",      # required for OAuth redirect flow
+    SESSION_COOKIE_SAMESITE="Lax",
+    SESSION_COOKIE_SECURE=IS_VERCEL,
 )
+
 Session(app)
 
 
