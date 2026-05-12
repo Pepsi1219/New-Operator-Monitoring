@@ -9,7 +9,7 @@ TENANT_ID = os.getenv("TENANT_ID", "common")
 AUTHORITY = f"https://login.microsoftonline.com/{TENANT_ID}"
 REDIRECT_URI = os.getenv("REDIRECT_URI", "http://localhost:5000/auth/callback")
 FLASK_SECRET_KEY = os.getenv("FLASK_SECRET_KEY", "dev-secret-change-me")
-SCOPES = ["User.Read", "Files.ReadWrite"]
+SCOPES = ["User.Read", "Files.ReadWrite", "offline_access"]
 EXCEL_TABLE_NAME = os.getenv("EXCEL_TABLE_NAME", "EmployeeTable")
 
 # IMPORTANT: Please verify that each SharePoint link matches the correct workbook.
