@@ -35,6 +35,11 @@ app.secret_key = FLASK_SECRET_KEY
 # Vercel: use /tmp because serverless filesystem should not write to project directory
 IS_VERCEL = os.environ.get("VERCEL") == "1"
 
+# Server-side filesystem session
+# Local: use project folder
+# Vercel: use /tmp because /var/task is read-only
+IS_VERCEL = os.environ.get("VERCEL") == "1"
+
 _SESSION_DIR = (
     os.path.join("/tmp", "flask_session")
     if IS_VERCEL
@@ -42,8 +47,6 @@ _SESSION_DIR = (
 )
 
 os.makedirs(_SESSION_DIR, exist_ok=True)
-
-
 
 app.config.update(
     SESSION_TYPE="filesystem",
