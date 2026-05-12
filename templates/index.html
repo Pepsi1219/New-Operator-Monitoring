@@ -1,169 +1,143 @@
 <!doctype html>
-<html lang="th" data-theme="light">
+<html lang="th">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>New Operator Monitoring</title>
-  <!-- Apply saved theme before paint to avoid flash -->
-  <script>document.documentElement.dataset.theme = localStorage.getItem('theme') || 'light';</script>
   <link rel="stylesheet" href="/static/css/styles.css" />
 </head>
 <body>
   <header class="topbar">
-    <div class="topbar-brand">
-      <h1 data-i18n="appTitle">New Operator Monitoring</h1>
-      <p data-i18n="appSubtitle">SharePoint Excel Monitoring System</p>
+    <div>
+      <h1>New Operator Monitoring</h1>
+      <p>SharePoint Excel Monitoring System</p>
     </div>
     <div class="topbar-right">
-      <select id="langSelect" class="lang-select">
-        <option value="th">🇹🇭 ไทย</option>
-        <option value="en">🇬🇧 English</option>
-        <option value="lo">🇱🇦 ລາວ</option>
-        <option value="vi">🇻🇳 Tiếng Việt</option>
-      </select>
-      <button id="themeToggle" class="theme-toggle" title="Toggle theme">🌙</button>
+      <button id="adminBtn" class="admin-btn hidden">Admin</button>
       <div id="authBox" class="auth-box"></div>
     </div>
   </header>
 
-  <!-- Admin Floating Action Button -->
-  <button id="adminBtn" class="admin-fab hidden" title="Admin">⚙</button>
-
-  <!-- Admin Modal -->
   <div id="adminModal" class="modal-overlay hidden">
     <div class="modal-box">
       <div class="modal-header">
-        <h2 data-i18n="adminTitle">Admin Settings</h2>
+        <h2>Admin Settings</h2>
         <button id="closeAdminBtn" class="close-btn">×</button>
       </div>
-      <h3 data-i18n="holidaySection">กำหนดวันหยุดพิเศษ</h3>
+      <h3>กำหนดวันหยุดพิเศษ</h3>
       <div class="row">
         <input id="holidayInput" type="date" />
-        <button id="addHolidayBtn" data-i18n="addHoliday">เพิ่มวันหยุด</button>
+        <button id="addHolidayBtn">เพิ่มวันหยุด</button>
       </div>
       <div id="holidayList" class="chips"></div>
-      <p class="hint" data-i18n="holidayHint">ระบบจะไม่นับวันอาทิตย์และวันหยุดพิเศษในการคำนวณ Remaining Days</p>
+      <p class="hint">ระบบจะไม่นับวันอาทิตย์และวันหยุดพิเศษในการคำนวณ Remaining Days</p>
     </div>
   </div>
 
   <main class="container">
-    <!-- Login Panel -->
     <section id="loginPanel" class="card hero hidden">
-      <h2 data-i18n="loginTitle">เข้าสู่ระบบด้วย Microsoft Account</h2>
-      <p data-i18n="loginDesc">ระบบนี้ใช้ Microsoft Graph เพื่ออ่าน/เขียน Excel บน SharePoint ขององค์กร</p>
-      <a class="primary-link" href="/login" data-i18n="loginBtn">Sign in with Microsoft</a>
+      <h2>เข้าสู่ระบบด้วย Microsoft Account</h2>
+      <p>ระบบนี้ใช้ Microsoft Graph เพื่ออ่าน/เขียน Excel บน SharePoint ขององค์กร</p>
+      <a class="primary-link" href="/login">Sign in with Microsoft</a>
     </section>
 
-    <!-- Home Page -->
     <section id="homePage" class="page hidden">
-      <section class="card home-card">
-        <h2 data-i18n="selectDept">เลือกหน่วยงาน</h2>
+      <section class="card">
+        <h2>เลือกหน่วยงาน</h2>
         <div id="departmentGrid" class="department-grid"></div>
       </section>
+
     </section>
 
-    <!-- Dashboard Page -->
     <section id="dashboardPage" class="page hidden">
       <div class="dashboard-title">
-        <button id="backHomeBtn" data-i18n="backHome">← กลับหน้าแรก</button>
+        <button id="backHomeBtn">← กลับหน้าแรก</button>
         <h2 id="dashboardTitle"></h2>
-        <button id="refreshBtn" data-i18n="refresh">Refresh</button>
+        <button id="refreshBtn">Refresh</button>
       </div>
 
       <div id="messageBox" class="message hidden"></div>
 
       <section class="stats">
-        <div class="stat"><strong id="totalCount">0</strong><span data-i18n="total">Total</span></div>
-        <div class="stat ok"><strong id="onTrackCount">0</strong><span data-i18n="onTrack">On Track</span></div>
-        <div class="stat warn"><strong id="warningCount">0</strong><span data-i18n="warning">Warning</span></div>
-        <div class="stat danger"><strong id="overdueCount">0</strong><span data-i18n="overdue">Overdue</span></div>
+        <div class="stat"><strong id="totalCount">0</strong><span>Total</span></div>
+        <div class="stat ok"><strong id="onTrackCount">0</strong><span>On Track</span></div>
+        <div class="stat warn"><strong id="warningCount">0</strong><span>Warning</span></div>
+        <div class="stat danger"><strong id="overdueCount">0</strong><span>Overdue</span></div>
       </section>
 
       <section class="grid-two">
         <div class="card">
-          <h2 data-i18n="newRecord">บันทึกข้อมูลใหม่</h2>
-          <label>
-            <span data-i18n="employeeId">Employee ID</span>
-            <input id="newEmployeeId" />
-          </label>
-          <label>
-            <span data-i18n="employeeName">Employee Name</span>
-            <input id="newEmployeeName" />
-          </label>
-          <label>
-            <span data-i18n="grade">Grade</span>
+          <h2>บันทึกข้อมูลใหม่</h2>
+          <label>Employee ID<input id="newEmployeeId" /></label>
+          <label>Employee Name<input id="newEmployeeName" /></label>
+          <label>Grade
             <select id="newGrade">
-              <option value="" data-i18n="selectPlaceholder">-- Select --</option>
-              <option value="B" data-i18n="gradeB">B - 18 working days</option>
-              <option value="C" data-i18n="gradeC">C - 6 working days</option>
-              <option value="D" data-i18n="gradeD">D - 5 working days</option>
-              <option value="E" data-i18n="gradeE">E - 2 working days</option>
+              <option value="">-- Select --</option>
+              <option value="B">B - 18 working days</option>
+              <option value="C">C - 6 working days</option>
+              <option value="D">D - 5 working days</option>
+              <option value="E">E - 2 working days</option>
             </select>
           </label>
-          <button id="createBtn" class="primary" data-i18n="saveNew">Save New Employee</button>
+          <button id="createBtn" class="primary">Save New Employee</button>
         </div>
 
         <div class="card">
-          <h2 data-i18n="viewEdit">ดูข้อมูล / แก้ไขข้อมูล</h2>
+          <h2>ดูข้อมูล / แก้ไขข้อมูล</h2>
           <div class="row">
-            <input id="searchEmployeeId" data-i18n-placeholder="employeeIdPlaceholder" placeholder="Employee ID" />
-            <button id="searchBtn" data-i18n="search">Search</button>
+            <input id="searchEmployeeId" placeholder="Employee ID" />
+            <button id="searchBtn">Search</button>
           </div>
 
           <form id="editForm" class="hidden">
             <div class="status-panel">
               <span id="statusBadge" class="badge">-</span>
-              <div>
-                <span data-i18n="remaining">Remaining</span>:
-                <strong id="remainingDays">-</strong>
-                <span data-i18n="workingDays">working days</span>
-              </div>
+              <div>Remaining: <strong id="remainingDays">-</strong> working days</div>
               <div class="progress"><div id="progressBar"></div></div>
               <div id="dueDateText" class="hint"></div>
             </div>
 
             <div class="form-grid">
-              <label><span data-i18n="employeeId">Employee ID</span><input name="Employee ID" readonly /></label>
-              <label><span data-i18n="employeeName">Employee Name</span><input name="Employee Name" /></label>
-              <label>
-                <span data-i18n="grade">Grade</span>
+              <label>Employee ID<input name="Employee ID" readonly /></label>
+              <label>Employee Name<input name="Employee Name" /></label>
+              <label>Grade
                 <select name="Grade">
-                  <option value="" data-i18n="selectPlaceholder">-- Select --</option>
+                  <option value="">-- Select --</option>
                   <option value="B">B</option>
                   <option value="C">C</option>
                   <option value="D">D</option>
                   <option value="E">E</option>
                 </select>
               </label>
-              <label><span data-i18n="csaStartDate">CSA Start Date</span><input name="CSA Start Date" type="date" /></label>
-              <label><span data-i18n="basicStart">Basic Start</span><input name="Basic Start" type="date" /></label>
-              <label><span data-i18n="basicEnd">Basic End</span><input name="Basic End" type="date" /></label>
-              <label><span data-i18n="operationStart">Operation Start</span><input name="Operation Start" type="date" /></label>
-              <label><span data-i18n="operationEnd">Operation End</span><input name="Operation End" type="date" /></label>
-              <label><span data-i18n="resignDate">Resign Date</span><input name="Resign Date" type="date" /></label>
-              <label><span data-i18n="transfersDate">Transfers Date</span><input name="Transfers Date" type="date" /></label>
-              <label><span data-i18n="graduateEff">Graduate Eff</span><input name="Graduate Eff" type="number" min="0" max="100" step="0.01" /></label>
+              <label>CSA Start Date<input name="CSA Start Date" type="date" /></label>
+              <label>Basic Start<input name="Basic Start" type="date" /></label>
+              <label>Basic End<input name="Basic End" type="date" /></label>
+              <label>Operation Start<input name="Operation Start" type="date" /></label>
+              <label>Operation End<input name="Operation End" type="date" /></label>
+              <label>Resign Date<input name="Resign Date" type="date" /></label>
+              <label>Transfers Date<input name="Transfers Date" type="date" /></label>
+              <label>Graduate Eff<input name="Graduate Eff" type="number" min="0" max="100" step="0.01" /></label>
             </div>
-            <label><span data-i18n="comment">Comment</span><textarea name="Comment"></textarea></label>
-            <button type="submit" class="primary" data-i18n="saveUpdate">Save Update</button>
-            <button type="button" id="closeEditBtn" data-i18n="close">Close</button>
+            <label>Comment<textarea name="Comment"></textarea></label>
+            <button type="submit" class="primary">Save Update</button>
+            <button type="button" id="closeEditBtn">Close</button>
           </form>
         </div>
       </section>
 
       <section class="card">
-        <h2 data-i18n="riskList">Risk List</h2>
+        <h2>Employee List</h2>
         <div class="table-wrap">
           <table>
             <thead>
               <tr>
-                <th data-i18n="colEmployeeId">Employee ID</th>
-                <th data-i18n="colEmployeeName">Employee Name</th>
-                <th data-i18n="colGrade">Grade</th>
-                <th data-i18n="colOpStart">Operation Start</th>
-                <th data-i18n="colDueDate">Due Date</th>
-                <th data-i18n="colRemaining">Remaining</th>
-                <th data-i18n="colStatus">Status</th>
+                <th>Employee ID</th>
+                <th>Employee Name</th>
+                <th>Grade</th>
+                <th>Operation Start</th>
+                <th>Due Date</th>
+                <th>Remaining</th>
+                <th>Status</th>
               </tr>
             </thead>
             <tbody id="employeeTableBody"></tbody>
