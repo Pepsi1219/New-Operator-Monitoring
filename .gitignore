@@ -1,3 +1,6 @@
+# Flask server-side session
+.flask_session/
+
 # Environment variables
 .env
 
