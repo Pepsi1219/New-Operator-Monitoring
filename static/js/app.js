@@ -1,286 +1,307 @@
 // ===== TRANSLATIONS =====
 const TRANSLATIONS = {
   th: {
-    appTitle:             'New Operator Monitoring',
-    appSubtitle:          'ระบบติดตาม Excel บน SharePoint',
-    loginTitle:           'เข้าสู่ระบบด้วย Microsoft Account',
-    loginDesc:            'ระบบนี้ใช้ Microsoft Graph เพื่ออ่าน/เขียน Excel บน SharePoint ขององค์กร',
-    loginBtn:             'Sign in with Microsoft',
-    selectDept:           'เลือกหน่วยงาน',
-    adminTitle:           'ตั้งค่าผู้ดูแลระบบ',
-    holidaySection:       'กำหนดวันหยุดพิเศษ',
-    addHoliday:           'เพิ่มวันหยุด',
-    holidayHint:          'ระบบจะไม่นับวันอาทิตย์และวันหยุดพิเศษในการคำนวณ Remaining Days',
-    backHome:             '← กลับหน้าแรก',
-    refresh:              'โหลดใหม่',
-    total:                'ทั้งหมด',
-    onTrack:              'On Track',
-    warning:              'Warning',
-    overdue:              'Overdue',
-    newRecord:            'บันทึกข้อมูลใหม่',
-    employeeId:           'รหัสพนักงาน',
-    employeeName:         'ชื่อพนักงาน',
-    grade:                'เกรด',
-    selectPlaceholder:    '-- เลือก --',
-    gradeB:               'B - 18 วันทำงาน',
-    gradeC:               'C - 6 วันทำงาน',
-    gradeD:               'D - 5 วันทำงาน',
-    gradeE:               'E - 2 วันทำงาน',
-    saveNew:              'บันทึกพนักงานใหม่',
-    viewEdit:             'ดูข้อมูล / แก้ไขข้อมูล',
-    search:               'ค้นหา',
-    remaining:            'คงเหลือ',
-    workingDays:          'วันทำงาน',
-    csaStartDate:         'CSA Start Date',
-    basicStart:           'Basic Start',
-    basicEnd:             'Basic End',
-    operationStart:       'Operation Start',
-    operationEnd:         'Operation End',
-    resignDate:           'วันลาออก',
-    transfersDate:        'วันโอนย้าย',
-    graduateEff:          'Graduate Eff',
-    comment:              'หมายเหตุ',
-    saveUpdate:           'บันทึกการแก้ไข',
-    close:                'ปิด',
-    List:             'รายการ',
-    colEmployeeId:        'รหัสพนักงาน',
-    colEmployeeName:      'ชื่อพนักงาน',
-    colGrade:             'เกรด',
-    colOpStart:           'Operation Start',
-    colDueDate:           'Due Date',
-    colRemaining:         'Remaining',
-    colStatus:            'สถานะ',
-    dashboard:            'แดชบอร์ด',
-    dueDate:              'Due Date',
-    employeeIdPlaceholder:'รหัสพนักงาน',
-    signedIn:             'เข้าสู่ระบบแล้ว',
-    logout:               'ออกจากระบบ',
-    loading:              'กำลังโหลด...',
-    loadedCount:          'โหลด {n} พนักงาน',
-    created:              'สร้างพนักงานใหม่สำเร็จ',
-    updated:              'อัปเดตข้อมูลสำเร็จ',
-    loaded:               'โหลดข้อมูลพนักงานสำเร็จ',
-    pleaseEnterEmployeeId:'กรุณากรอกรหัสพนักงาน',
-    statusOnTrack:        'On Track',
-    statusWarning:        'Warning',
-    statusOverdue:        'Overdue',
-    statusCompleted:      'Completed',
-    statusNotStarted:     'Not Started',
-    statusResigned:       'Resigned',
-    statusTransferred:    'Transferred',
+    appTitle:               'New Operator Monitoring',
+    appSubtitle:            'ระบบติดตามข้อมูลพนักงานใหม่',
+    loginTitle:             'เข้าสู่ระบบด้วย Microsoft Account',
+    loginDesc:              'ระบบนี้ใช้ Microsoft Graph เพื่ออ่าน/เขียน Excel บน SharePoint ขององค์กร',
+    loginBtn:               'Sign in with Microsoft',
+    selectDept:             'เลือกหน่วยงาน',
+    adminTitle:             'ตั้งค่าผู้ดูแลระบบ',
+    holidaySection:         'กำหนดวันหยุดพิเศษ',
+    addHoliday:             'เพิ่มวันหยุด',
+    holidayHint:            'ระบบจะไม่นับวันอาทิตย์และวันหยุดพิเศษในการคำนวณ Remaining Days',
+    backHome:               '← กลับหน้าแรก',
+    refresh:                'โหลดใหม่',
+    total:                  'ทั้งหมด',
+    congratulations:        'สำเร็จการฝึก',
+    training:               'กำลังฝึก',
+    resignation:            'การลาออก',
+    register:               'ลงทะเบียน',
+    newRecord:              'บันทึกข้อมูลใหม่',
+    employeeId:             'รหัสพนักงาน',
+    employeeName:           'ชื่อพนักงาน',
+    grade:                  'เกรด',
+    selectPlaceholder:      '-- เลือก --',
+    saveNew:                'บันทึกพนักงานใหม่',
+    viewEdit:               'ดูข้อมูล / แก้ไขข้อมูล',
+    search:                 'ค้นหา',
+    remaining:              'คงเหลือ',
+    workingDays:            'วันทำงาน',
+    csaStartDate:           'CSA Start Date',
+    basicStart:             'Basic Start',
+    basicEnd:               'Basic End',
+    operationStart:         'Operation Start',
+    operationEnd:           'Operation End',
+    resignDate:             'วันลาออก',
+    transfersDate:          'วันโอนย้าย',
+    graduateEff:            'Graduate Eff',
+    comment:                'หมายเหตุ',
+    saveUpdate:             'บันทึกการแก้ไข',
+    close:                  'ปิด',
+    riskList:               'ข้อมูลพนักงาน',
+    filterAll:              'ทั้งหมด',
+    colEmployeeId:          'รหัสพนักงาน',
+    colEmployeeName:        'ชื่อพนักงาน',
+    colGrade:               'เกรด',
+    colCsaStart:            'วันเริ่มฝึก',
+    colDueDate:             'วันครบกำหนด',
+    colBasicStart:          'เริ่มฝึกพื้นฐาน',
+    colBasicEnd:            'ฝึกพื้นฐานเสร็จ',
+    colOpStart:             'เริ่มฝึกขั้นตอนงาน',
+    colOpEnd:               'ฝึกขั้นตอนงานเสร็จ',
+    colResignDate:          'วันลาออก',
+    colTransferDate:        'วันโอนย้าย',
+    colGradEff:             'ประสิทธิภาพ',
+    colActualStatus:        'สถานะจริง',
+    dashboard:              'แดชบอร์ด',
+    dueDate:                'Due Date',
+    employeeIdPlaceholder:  'รหัสพนักงาน',
+    signedIn:               'เข้าสู่ระบบแล้ว',
+    logout:                 'ออกจากระบบ',
+    loading:                'กำลังโหลด...',
+    loadedCount:            'โหลด {n} พนักงาน',
+    created:                'สร้างพนักงานใหม่สำเร็จ',
+    updated:                'อัปเดตข้อมูลสำเร็จ',
+    loaded:                 'โหลดข้อมูลพนักงานสำเร็จ',
+    pleaseEnterEmployeeId:  'กรุณากรอกรหัสพนักงาน',
+    statusCompleted:        'ฝึกเสร็จ',
+    statusCompletedOverdue: 'ฝึกเสร็จ (เกินกำหนด)',
+    statusUnderOperation:   'กำลังฝึกขั้นตอนงาน',
+    statusUnderBasic:       'กำลังฝึกพื้นฐาน',
+    statusResignOperation:  'ลาออกระหว่างฝึกขั้นตอน',
+    statusResignBasic:      'ลาออกระหว่างฝึกพื้นฐาน',
+    statusTransferOperation:'โอนย้ายระหว่างฝึกขั้นตอน',
+    statusTransferBasic:    'โอนย้ายระหว่างฝึกพื้นฐาน',
   },
   en: {
-    appTitle:             'New Operator Monitoring',
-    appSubtitle:          'SharePoint Excel Monitoring System',
-    loginTitle:           'Sign in with Microsoft Account',
-    loginDesc:            'This system uses Microsoft Graph to read/write Excel files on SharePoint.',
-    loginBtn:             'Sign in with Microsoft',
-    selectDept:           'Select Department',
-    adminTitle:           'Admin Settings',
-    holidaySection:       'Configure Special Holidays',
-    addHoliday:           'Add Holiday',
-    holidayHint:          'Sundays and special holidays are excluded from the Remaining Days calculation.',
-    backHome:             '← Back to Home',
-    refresh:              'Refresh',
-    total:                'Total',
-    onTrack:              'On Track',
-    warning:              'Warning',
-    overdue:              'Overdue',
-    newRecord:            'Create New Record',
-    employeeId:           'Employee ID',
-    employeeName:         'Employee Name',
-    grade:                'Grade',
-    selectPlaceholder:    '-- Select --',
-    gradeB:               'B - 18 working days',
-    gradeC:               'C - 6 working days',
-    gradeD:               'D - 5 working days',
-    gradeE:               'E - 2 working days',
-    saveNew:              'Save New Employee',
-    viewEdit:             'View / Edit Record',
-    search:               'Search',
-    remaining:            'Remaining',
-    workingDays:          'working days',
-    csaStartDate:         'CSA Start Date',
-    basicStart:           'Basic Start',
-    basicEnd:             'Basic End',
-    operationStart:       'Operation Start',
-    operationEnd:         'Operation End',
-    resignDate:           'Resign Date',
-    transfersDate:        'Transfers Date',
-    graduateEff:          'Graduate Eff',
-    comment:              'Comment',
-    saveUpdate:           'Save Update',
-    close:                'Close',
-    List:             'Employee List',
-    colEmployeeId:        'Employee ID',
-    colEmployeeName:      'Employee Name',
-    colGrade:             'Grade',
-    colOpStart:           'Operation Start',
-    colDueDate:           'Due Date',
-    colRemaining:         'Remaining',
-    colStatus:            'Status',
-    dashboard:            'Dashboard',
-    dueDate:              'Due Date',
-    employeeIdPlaceholder:'Employee ID',
-    signedIn:             'Signed in',
-    logout:               'Logout',
-    loading:              'Loading...',
-    loadedCount:          'Loaded {n} employees',
-    created:              'Employee created successfully',
-    updated:              'Employee updated successfully',
-    loaded:               'Employee data loaded',
-    pleaseEnterEmployeeId:'Please enter Employee ID',
-    statusOnTrack:        'On Track',
-    statusWarning:        'Warning',
-    statusOverdue:        'Overdue',
-    statusCompleted:      'Completed',
-    statusNotStarted:     'Not Started',
-    statusResigned:       'Resigned',
-    statusTransferred:    'Transferred',
+    appTitle:               'New Operator Monitoring',
+    appSubtitle:            'New employee tracking system',
+    loginTitle:             'Sign in with Microsoft Account',
+    loginDesc:              'This system uses Microsoft Graph to read/write Excel files on SharePoint.',
+    loginBtn:               'Sign in with Microsoft',
+    selectDept:             'Select Department',
+    adminTitle:             'Admin Settings',
+    holidaySection:         'Configure Special Holidays',
+    addHoliday:             'Add Holiday',
+    holidayHint:            'Sundays and special holidays are excluded from the Remaining Days calculation.',
+    backHome:               '← Back to Home',
+    refresh:                'Refresh',
+    total:                  'Total',
+    congratulations:        'Completed Training',
+    training:               'In Training',
+    resignation:            'Resignation',
+    register:               'Register',
+    newRecord:              'Create New Record',
+    employeeId:             'Employee ID',
+    employeeName:           'Employee Name',
+    grade:                  'Grade',
+    selectPlaceholder:      '-- Select --',
+    saveNew:                'Save New Employee',
+    viewEdit:               'View / Edit Record',
+    search:                 'Search',
+    remaining:              'Remaining',
+    workingDays:            'working days',
+    csaStartDate:           'CSA Start Date',
+    basicStart:             'Basic Start',
+    basicEnd:               'Basic End',
+    operationStart:         'Operation Start',
+    operationEnd:           'Operation End',
+    resignDate:             'Resign Date',
+    transfersDate:          'Transfers Date',
+    graduateEff:            'Graduate Eff',
+    comment:                'Comment',
+    saveUpdate:             'Save Update',
+    close:                  'Close',
+    riskList:               'Employee Data',
+    filterAll:              'All',
+    colEmployeeId:          'Employee ID',
+    colEmployeeName:        'Employee Name',
+    colGrade:               'Grade',
+    colCsaStart:            'CSA Start',
+    colDueDate:             'Due Date',
+    colBasicStart:          'Basic Start',
+    colBasicEnd:            'Basic End',
+    colOpStart:             'Op Start',
+    colOpEnd:               'Op End',
+    colResignDate:          'Resign Date',
+    colTransferDate:        'Transfer Date',
+    colGradEff:             'Eff%',
+    colActualStatus:        'Actual Status',
+    dashboard:              'Dashboard',
+    dueDate:                'Due Date',
+    employeeIdPlaceholder:  'Employee ID',
+    signedIn:               'Signed in',
+    logout:                 'Logout',
+    loading:                'Loading...',
+    loadedCount:            'Loaded {n} employees',
+    created:                'Employee created successfully',
+    updated:                'Employee updated successfully',
+    loaded:                 'Employee data loaded',
+    pleaseEnterEmployeeId:  'Please enter Employee ID',
+    statusCompleted:        'Completed',
+    statusCompletedOverdue: 'Completed (Overdue)',
+    statusUnderOperation:   'In Operation Training',
+    statusUnderBasic:       'In Basic Training',
+    statusResignOperation:  'Resigned (Op Training)',
+    statusResignBasic:      'Resigned (Basic Training)',
+    statusTransferOperation:'Transferred (Op Training)',
+    statusTransferBasic:    'Transferred (Basic Training)',
   },
   lo: {
-    appTitle:             'New Operator Monitoring',
-    appSubtitle:          'ລະບົບຕິດຕາມ Excel ເທິງ SharePoint',
-    loginTitle:           'ເຂົ້າສູ່ລະບົບດ້ວຍ Microsoft Account',
-    loginDesc:            'ລະບົບນີ້ໃຊ້ Microsoft Graph ເພື່ອອ່ານ/ຂຽນ Excel ເທິງ SharePoint ຂອງອົງກອນ',
-    loginBtn:             'Sign in with Microsoft',
-    selectDept:           'ເລືອກພະແນກ',
-    adminTitle:           'ຕັ້ງຄ່າຜູ້ດູແລລະບົບ',
-    holidaySection:       'ກຳນົດວັນຫຍຸດພິເສດ',
-    addHoliday:           'ເພີ່ມວັນຫຍຸດ',
-    holidayHint:          'ລະບົບຈະບໍ່ນັບວັນອາທິດ ແລະ ວັນຫຍຸດພິເສດໃນການຄຳນວນ Remaining Days',
-    backHome:             '← ກັບໄປໜ້າຫຼັກ',
-    refresh:              'ໂຫຼດໃໝ່',
-    total:                'ທັງໝົດ',
-    onTrack:              'On Track',
-    warning:              'Warning',
-    overdue:              'Overdue',
-    newRecord:            'ບັນທຶກຂໍ້ມູນໃໝ່',
-    employeeId:           'ລະຫັດພະນັກງານ',
-    employeeName:         'ຊື່ພະນັກງານ',
-    grade:                'ເກຣດ',
-    selectPlaceholder:    '-- ເລືອກ --',
-    gradeB:               'B - 18 ວັນເຮັດວຽກ',
-    gradeC:               'C - 6 ວັນເຮັດວຽກ',
-    gradeD:               'D - 5 ວັນເຮັດວຽກ',
-    gradeE:               'E - 2 ວັນເຮັດວຽກ',
-    saveNew:              'ບັນທຶກພະນັກງານໃໝ່',
-    viewEdit:             'ເບິ່ງ / ແກ້ໄຂຂໍ້ມູນ',
-    search:               'ຄົ້ນຫາ',
-    remaining:            'ຄົງເຫຼືອ',
-    workingDays:          'ວັນເຮັດວຽກ',
-    csaStartDate:         'CSA Start Date',
-    basicStart:           'Basic Start',
-    basicEnd:             'Basic End',
-    operationStart:       'Operation Start',
-    operationEnd:         'Operation End',
-    resignDate:           'ວັນລາອອກ',
-    transfersDate:        'ວັນໂອນຍ້າຍ',
-    graduateEff:          'Graduate Eff',
-    comment:              'ໝາຍເຫດ',
-    saveUpdate:           'ບັນທຶກການແກ້ໄຂ',
-    close:                'ປິດ',
-    List:             'ລາຍຊື່ພະນັກງານ',
-    colEmployeeId:        'ລະຫັດພະນັກງານ',
-    colEmployeeName:      'ຊື່ພະນັກງານ',
-    colGrade:             'ເກຣດ',
-    colOpStart:           'Operation Start',
-    colDueDate:           'Due Date',
-    colRemaining:         'Remaining',
-    colStatus:            'ສະຖານະ',
-    dashboard:            'ແດສບອດ',
-    dueDate:              'Due Date',
-    employeeIdPlaceholder:'ລະຫັດພະນັກງານ',
-    signedIn:             'ເຂົ້າສູ່ລະບົບແລ້ວ',
-    logout:               'ອອກຈາກລະບົບ',
-    loading:              'ກຳລັງໂຫຼດ...',
-    loadedCount:          'ໂຫຼດ {n} ພະນັກງານ',
-    created:              'ສ້າງພະນັກງານໃໝ່ສຳເລັດ',
-    updated:              'ອັບເດດຂໍ້ມູນສຳເລັດ',
-    loaded:               'ໂຫຼດຂໍ້ມູນພະນັກງານສຳເລັດ',
-    pleaseEnterEmployeeId:'ກະລຸນາໃສ່ລະຫັດພະນັກງານ',
-    statusOnTrack:        'On Track',
-    statusWarning:        'Warning',
-    statusOverdue:        'Overdue',
-    statusCompleted:      'Completed',
-    statusNotStarted:     'ຍັງບໍ່ເລີ່ມ',
-    statusResigned:       'ລາອອກ',
-    statusTransferred:    'ໂອນຍ້າຍ',
+    appTitle:               'New Operator Monitoring',
+    appSubtitle:            'ລະບົບຕິດຕາມພະນັກງານໃໝ່',
+    loginTitle:             'ເຂົ້າສູ່ລະບົບດ້ວຍ Microsoft Account',
+    loginDesc:              'ລະບົບນີ້ໃຊ້ Microsoft Graph ເພື່ອອ່ານ/ຂຽນ Excel ເທິງ SharePoint ຂອງອົງກອນ',
+    loginBtn:               'Sign in with Microsoft',
+    selectDept:             'ເລືອກພະແນກ',
+    adminTitle:             'ຕັ້ງຄ່າຜູ້ດູແລລະບົບ',
+    holidaySection:         'ກຳນົດວັນຫຍຸດພິເສດ',
+    addHoliday:             'ເພີ່ມວັນຫຍຸດ',
+    holidayHint:            'ລະບົບຈະບໍ່ນັບວັນອາທິດ ແລະ ວັນຫຍຸດພິເສດໃນການຄຳນວນ Remaining Days',
+    backHome:               '← ກັບໄປໜ້າຫຼັກ',
+    refresh:                'ໂຫຼດໃໝ່',
+    total:                  'ທັງໝົດ',
+    congratulations:        'ສຳເລັດການຝຶກ',
+    training:               'ກຳລັງຝຶກ',
+    resignation:            'ການລາອອກ',
+    register:               'ລົງທະບຽນ',
+    newRecord:              'ບັນທຶກຂໍ້ມູນໃໝ່',
+    employeeId:             'ລະຫັດພະນັກງານ',
+    employeeName:           'ຊື່ພະນັກງານ',
+    grade:                  'ເກຣດ',
+    selectPlaceholder:      '-- ເລືອກ --',
+    saveNew:                'ບັນທຶກພະນັກງານໃໝ່',
+    viewEdit:               'ເບິ່ງ / ແກ້ໄຂຂໍ້ມູນ',
+    search:                 'ຄົ້ນຫາ',
+    remaining:              'ຄົງເຫຼືອ',
+    workingDays:            'ວັນເຮັດວຽກ',
+    csaStartDate:           'CSA Start Date',
+    basicStart:             'Basic Start',
+    basicEnd:               'Basic End',
+    operationStart:         'Operation Start',
+    operationEnd:           'Operation End',
+    resignDate:             'ວັນລາອອກ',
+    transfersDate:          'ວັນໂອນຍ້າຍ',
+    graduateEff:            'Graduate Eff',
+    comment:                'ໝາຍເຫດ',
+    saveUpdate:             'ບັນທຶກການແກ້ໄຂ',
+    close:                  'ປິດ',
+    riskList:               'ຂໍ້ມູນພະນັກງານ',
+    filterAll:              'ທັງໝົດ',
+    colEmployeeId:          'ລະຫັດພະນັກງານ',
+    colEmployeeName:        'ຊື່ພະນັກງານ',
+    colGrade:               'ເກຣດ',
+    colCsaStart:            'ວັນເລີ່ມຝຶກ',
+    colDueDate:             'ວັນຄົບກຳນົດ',
+    colBasicStart:          'ເລີ່ມຝຶກພື້ນຖານ',
+    colBasicEnd:            'ຝຶກພື້ນຖານສຳເລັດ',
+    colOpStart:             'ເລີ່ມຝຶກຂັ້ນຕອນ',
+    colOpEnd:               'ຝຶກຂັ້ນຕອນສຳເລັດ',
+    colResignDate:          'ວັນລາອອກ',
+    colTransferDate:        'ວັນໂອນຍ້າຍ',
+    colGradEff:             'ປະສິດທິພາບ',
+    colActualStatus:        'ສະຖານະຈິງ',
+    dashboard:              'ແດສບອດ',
+    dueDate:                'Due Date',
+    employeeIdPlaceholder:  'ລະຫັດພະນັກງານ',
+    signedIn:               'ເຂົ້າສູ່ລະບົບແລ້ວ',
+    logout:                 'ອອກຈາກລະບົບ',
+    loading:                'ກຳລັງໂຫຼດ...',
+    loadedCount:            'ໂຫຼດ {n} ພະນັກງານ',
+    created:                'ສ້າງພະນັກງານໃໝ່ສຳເລັດ',
+    updated:                'ອັບເດດຂໍ້ມູນສຳເລັດ',
+    loaded:                 'ໂຫຼດຂໍ້ມູນພະນັກງານສຳເລັດ',
+    pleaseEnterEmployeeId:  'ກະລຸນາໃສ່ລະຫັດພະນັກງານ',
+    statusCompleted:        'ຝຶກສຳເລັດ',
+    statusCompletedOverdue: 'ຝຶກສຳເລັດ (ເກີນກຳນົດ)',
+    statusUnderOperation:   'ກຳລັງຝຶກຂັ້ນຕອນ',
+    statusUnderBasic:       'ກຳລັງຝຶກພື້ນຖານ',
+    statusResignOperation:  'ລາອອກລະຫວ່າງຝຶກຂັ້ນຕອນ',
+    statusResignBasic:      'ລາອອກລະຫວ່າງຝຶກພື້ນຖານ',
+    statusTransferOperation:'ໂອນຍ້າຍລະຫວ່າງຝຶກຂັ້ນຕອນ',
+    statusTransferBasic:    'ໂອນຍ້າຍລະຫວ່າງຝຶກພື້ນຖານ',
   },
   vi: {
-    appTitle:             'New Operator Monitoring',
-    appSubtitle:          'Hệ thống theo dõi Excel trên SharePoint',
-    loginTitle:           'Đăng nhập bằng tài khoản Microsoft',
-    loginDesc:            'Hệ thống này sử dụng Microsoft Graph để đọc/ghi Excel trên SharePoint của tổ chức.',
-    loginBtn:             'Sign in with Microsoft',
-    selectDept:           'Chọn bộ phận',
-    adminTitle:           'Cài đặt Admin',
-    holidaySection:       'Cấu hình ngày nghỉ đặc biệt',
-    addHoliday:           'Thêm ngày nghỉ',
-    holidayHint:          'Hệ thống sẽ không tính Chủ nhật và ngày nghỉ đặc biệt khi tính Remaining Days.',
-    backHome:             '← Về trang chủ',
-    refresh:              'Làm mới',
-    total:                'Tổng',
-    onTrack:              'Đúng tiến độ',
-    warning:              'Cảnh báo',
-    overdue:              'Quá hạn',
-    newRecord:            'Tạo bản ghi mới',
-    employeeId:           'Mã nhân viên',
-    employeeName:         'Tên nhân viên',
-    grade:                'Cấp bậc',
-    selectPlaceholder:    '-- Chọn --',
-    gradeB:               'B - 18 ngày làm việc',
-    gradeC:               'C - 6 ngày làm việc',
-    gradeD:               'D - 5 ngày làm việc',
-    gradeE:               'E - 2 ngày làm việc',
-    saveNew:              'Lưu nhân viên mới',
-    viewEdit:             'Xem / Chỉnh sửa',
-    search:               'Tìm kiếm',
-    remaining:            'Còn lại',
-    workingDays:          'ngày làm việc',
-    csaStartDate:         'CSA Start Date',
-    basicStart:           'Basic Start',
-    basicEnd:             'Basic End',
-    operationStart:       'Operation Start',
-    operationEnd:         'Operation End',
-    resignDate:           'Ngày nghỉ việc',
-    transfersDate:        'Ngày chuyển',
-    graduateEff:          'Graduate Eff',
-    comment:              'Ghi chú',
-    saveUpdate:           'Lưu cập nhật',
-    close:                'Đóng',
-    List:             'Danh sách nhân viên',
-    colEmployeeId:        'Mã nhân viên',
-    colEmployeeName:      'Tên nhân viên',
-    colGrade:             'Cấp bậc',
-    colOpStart:           'Operation Start',
-    colDueDate:           'Due Date',
-    colRemaining:         'Remaining',
-    colStatus:            'Trạng thái',
-    dashboard:            'Bảng điều khiển',
-    dueDate:              'Due Date',
-    employeeIdPlaceholder:'Mã nhân viên',
-    signedIn:             'Đã đăng nhập',
-    logout:               'Đăng xuất',
-    loading:              'Đang tải...',
-    loadedCount:          'Đã tải {n} nhân viên',
-    created:              'Tạo nhân viên mới thành công',
-    updated:              'Cập nhật thông tin thành công',
-    loaded:               'Đã tải dữ liệu nhân viên',
-    pleaseEnterEmployeeId:'Vui lòng nhập mã nhân viên',
-    statusOnTrack:        'On Track',
-    statusWarning:        'Warning',
-    statusOverdue:        'Overdue',
-    statusCompleted:      'Completed',
-    statusNotStarted:     'Chưa bắt đầu',
-    statusResigned:       'Đã nghỉ',
-    statusTransferred:    'Đã chuyển',
+    appTitle:               'New Operator Monitoring',
+    appSubtitle:            'Hệ thống theo dõi nhân viên mới',
+    loginTitle:             'Đăng nhập bằng tài khoản Microsoft',
+    loginDesc:              'Hệ thống này sử dụng Microsoft Graph để đọc/ghi Excel trên SharePoint của tổ chức.',
+    loginBtn:               'Sign in with Microsoft',
+    selectDept:             'Chọn bộ phận',
+    adminTitle:             'Cài đặt Admin',
+    holidaySection:         'Cấu hình ngày nghỉ đặc biệt',
+    addHoliday:             'Thêm ngày nghỉ',
+    holidayHint:            'Hệ thống sẽ không tính Chủ nhật và ngày nghỉ đặc biệt khi tính Remaining Days.',
+    backHome:               '← Về trang chủ',
+    refresh:                'Làm mới',
+    total:                  'Tổng',
+    congratulations:        'Hoàn thành đào tạo',
+    training:               'Đang đào tạo',
+    resignation:            'Nghỉ việc',
+    register:               'Đăng ký',
+    newRecord:              'Tạo bản ghi mới',
+    employeeId:             'Mã nhân viên',
+    employeeName:           'Tên nhân viên',
+    grade:                  'Cấp bậc',
+    selectPlaceholder:      '-- Chọn --',
+    saveNew:                'Lưu nhân viên mới',
+    viewEdit:               'Xem / Chỉnh sửa',
+    search:                 'Tìm kiếm',
+    remaining:              'Còn lại',
+    workingDays:            'ngày làm việc',
+    csaStartDate:           'CSA Start Date',
+    basicStart:             'Basic Start',
+    basicEnd:               'Basic End',
+    operationStart:         'Operation Start',
+    operationEnd:           'Operation End',
+    resignDate:             'Ngày nghỉ việc',
+    transfersDate:          'Ngày chuyển',
+    graduateEff:            'Graduate Eff',
+    comment:                'Ghi chú',
+    saveUpdate:             'Lưu cập nhật',
+    close:                  'Đóng',
+    riskList:               'Dữ liệu nhân viên',
+    filterAll:              'Tất cả',
+    colEmployeeId:          'Mã nhân viên',
+    colEmployeeName:        'Tên nhân viên',
+    colGrade:               'Cấp bậc',
+    colCsaStart:            'Ngày bắt đầu',
+    colDueDate:             'Ngày hết hạn',
+    colBasicStart:          'Bắt đầu cơ bản',
+    colBasicEnd:            'Kết thúc cơ bản',
+    colOpStart:             'Bắt đầu vận hành',
+    colOpEnd:               'Kết thúc vận hành',
+    colResignDate:          'Ngày nghỉ',
+    colTransferDate:        'Ngày chuyển',
+    colGradEff:             'Hiệu suất',
+    colActualStatus:        'Trạng thái thực',
+    dashboard:              'Bảng điều khiển',
+    dueDate:                'Ngày hết hạn',
+    employeeIdPlaceholder:  'Mã nhân viên',
+    signedIn:               'Đã đăng nhập',
+    logout:                 'Đăng xuất',
+    loading:                'Đang tải...',
+    loadedCount:            'Đã tải {n} nhân viên',
+    created:                'Tạo nhân viên mới thành công',
+    updated:                'Cập nhật thông tin thành công',
+    loaded:                 'Đã tải dữ liệu nhân viên',
+    pleaseEnterEmployeeId:  'Vui lòng nhập mã nhân viên',
+    statusCompleted:        'Hoàn thành',
+    statusCompletedOverdue: 'Hoàn thành (Trễ hạn)',
+    statusUnderOperation:   'Đang đào tạo vận hành',
+    statusUnderBasic:       'Đang đào tạo cơ bản',
+    statusResignOperation:  'Nghỉ việc (Đào tạo vận hành)',
+    statusResignBasic:      'Nghỉ việc (Đào tạo cơ bản)',
+    statusTransferOperation:'Chuyển bộ phận (Vận hành)',
+    statusTransferBasic:    'Chuyển bộ phận (Cơ bản)',
   },
 };
 
 // ===== STATE =====
 let currentDepartment = null;
 let currentEmployeeId = null;
+let currentFilter     = '';
 let departments       = [];
 let holidays          = JSON.parse(localStorage.getItem('specialHolidays') || '[]');
 let lastEmployees     = [];
@@ -311,17 +332,25 @@ function applyTranslations() {
   document.documentElement.lang = currentLang;
 }
 
+// ===== STATUS HELPERS =====
 const STATUS_KEY_MAP = {
-  'On Track':    'statusOnTrack',
-  'Warning':     'statusWarning',
-  'Overdue':     'statusOverdue',
-  'Completed':   'statusCompleted',
-  'Not Started': 'statusNotStarted',
-  'Resigned':    'statusResigned',
-  'Transferred': 'statusTransferred',
+  'completed':            'statusCompleted',
+  'completed-overdue':    'statusCompletedOverdue',
+  'under-operation':      'statusUnderOperation',
+  'under-basic':          'statusUnderBasic',
+  'resign-operation':     'statusResignOperation',
+  'resign-basic':         'statusResignBasic',
+  'transfer-operation':   'statusTransferOperation',
+  'transfer-basic':       'statusTransferBasic',
 };
-function translateStatus(status) {
-  return t(STATUS_KEY_MAP[status] || status);
+
+function statusBadgeClass(key) {
+  if (key === 'completed')                                   return 'ok';
+  if (key === 'completed-overdue')                           return 'warn';
+  if (key === 'under-operation' || key === 'under-basic')    return 'warn';
+  if (key === 'resign-operation' || key === 'resign-basic')  return 'danger';
+  if (key === 'transfer-operation' || key === 'transfer-basic') return 'muted';
+  return 'muted';
 }
 
 // ===== THEME =====
@@ -347,8 +376,6 @@ function initLang() {
     currentLang = sel.value;
     localStorage.setItem('lang', currentLang);
     applyTranslations();
-
-    // Refresh dynamic text that was set via JS
     if (currentDepartment) {
       const dep = departments.find(d => d.key === currentDepartment);
       if (dep) $('dashboardTitle').textContent = `${dep.label} ${t('dashboard')}`;
@@ -365,18 +392,29 @@ function initLang() {
 
 // ===== ADMIN FAB / MODAL =====
 function initAdmin() {
-  $('adminBtn').onclick = () => {
-    $('adminModal').classList.remove('hidden');
-  };
+  $('adminBtn').onclick = () => $('adminModal').classList.remove('hidden');
   $('closeAdminBtn').onclick = closeAdmin;
-  $('adminModal').onclick = (e) => {
-    if (e.target === $('adminModal')) closeAdmin();
-  };
+  $('adminModal').onclick = (e) => { if (e.target === $('adminModal')) closeAdmin(); };
 }
+function closeAdmin() { $('adminModal').classList.add('hidden'); }
 
-function closeAdmin() {
-  $('adminModal').classList.add('hidden');
+// ===== REGISTER MODAL =====
+function initRegisterModal() {
+  $('registerBtn').onclick    = () => $('registerModal').classList.remove('hidden');
+  $('closeRegisterBtn').onclick = closeRegisterModal;
+  $('registerModal').onclick  = (e) => { if (e.target === $('registerModal')) closeRegisterModal(); };
+  $('createBtn').onclick      = createNewEmployee;
 }
+function closeRegisterModal() { $('registerModal').classList.add('hidden'); }
+
+// ===== EDIT MODAL =====
+function initEditModal() {
+  $('closeEditModalBtn').onclick = closeEditModal;
+  $('closeEditBtn').onclick      = closeEditModal;
+  $('editModal').onclick = (e) => { if (e.target === $('editModal')) closeEditModal(); };
+  $('editForm').onsubmit = saveEditForm;
+}
+function closeEditModal() { $('editModal').classList.add('hidden'); }
 
 // ===== UTILITY =====
 function show(el) { el.classList.remove('hidden'); }
@@ -403,7 +441,6 @@ async function api(path, options = {}) {
   return data;
 }
 
-// Fix: handle numeric Excel serial dates (e.g. value=1 should not become 1970-01-01)
 function normalizeDateForInput(value) {
   if (value === null || value === undefined || value === '' || value === 0) return '';
   if (typeof value === 'number') {
@@ -445,13 +482,6 @@ function setPage(page) {
   if (page === 'dashboard') show($('dashboardPage'));
 }
 
-function statusClass(status) {
-  if (status === 'Overdue')   return 'danger';
-  if (status === 'Warning')   return 'warn';
-  if (status === 'On Track' || status === 'Completed') return 'ok';
-  return 'muted';
-}
-
 // ===== DEPARTMENT GRID =====
 function renderDepartmentButtons() {
   const grid = $('departmentGrid');
@@ -470,6 +500,95 @@ function renderDepartmentButtons() {
   });
 }
 
+// ===== COMPUTE ACTUAL STATUS =====
+function computeActualStatus(emp, calc) {
+  function hasData(v) {
+    return v !== null && v !== undefined && v !== '' && v !== 0;
+  }
+  const opStart    = emp['Operation Start'];
+  const opEnd      = emp['Operation End'];
+  const basicStart = emp['Basic Start'];
+  const resignDate = emp['Resign Date'];
+  const transferDate = emp['Transfers Date'];
+  const dueDate    = (calc && calc.due_date) ? calc.due_date : '';
+
+  if (hasData(opEnd)) {
+    const opEndNorm = normalizeDateForInput(opEnd);
+    if (dueDate && opEndNorm && opEndNorm > dueDate) return 'completed-overdue';
+    return 'completed';
+  }
+  if (hasData(resignDate) && hasData(opStart))    return 'resign-operation';
+  if (hasData(resignDate) && hasData(basicStart)) return 'resign-basic';
+  if (hasData(transferDate) && hasData(opStart))    return 'transfer-operation';
+  if (hasData(transferDate) && hasData(basicStart)) return 'transfer-basic';
+  if (hasData(opStart))    return 'under-operation';
+  if (hasData(basicStart)) return 'under-basic';
+  return 'under-basic';
+}
+
+// ===== EMPLOYEE TABLE =====
+function buildRowHTML(emp, calc, actualKey) {
+  const nd = (v) => normalizeDateForInput(v) || '';
+  const gradEff = (emp['Graduate Eff'] !== undefined && emp['Graduate Eff'] !== '') ? emp['Graduate Eff'] : '';
+  const badgeClass = statusBadgeClass(actualKey);
+  const statusLabel = t(STATUS_KEY_MAP[actualKey] || actualKey);
+  const empId = String(emp['Employee ID'] || '').replace(/"/g, '&quot;');
+
+  return `
+    <td><button class="btn-row-edit" data-id="${empId}" title="Edit">✏</button></td>
+    <td>${emp['Employee ID']   || ''}</td>
+    <td>${emp['Employee Name'] || ''}</td>
+    <td>${emp['Grade']         || ''}</td>
+    <td>${nd(emp['CSA Start Date'])}</td>
+    <td>${calc.due_date        || ''}</td>
+    <td>${nd(emp['Basic Start'])}</td>
+    <td>${nd(emp['Basic End'])}</td>
+    <td>${nd(emp['Operation Start'])}</td>
+    <td>${nd(emp['Operation End'])}</td>
+    <td>${nd(emp['Resign Date'])}</td>
+    <td>${nd(emp['Transfers Date'])}</td>
+    <td>${gradEff}</td>
+    <td><span class="badge ${badgeClass}">${statusLabel}</span></td>
+  `;
+}
+
+function renderEmployeeTable(employees) {
+  const body = $('employeeTableBody');
+  body.innerHTML = '';
+
+  let total = employees.length;
+  let completed = 0, underOp = 0, underBasic = 0, resignOp = 0, resignBasic = 0;
+
+  employees.forEach(emp => {
+    const calc = emp.calculated || {};
+    const actualKey = computeActualStatus(emp, calc);
+
+    if (actualKey === 'completed' || actualKey === 'completed-overdue') completed++;
+    else if (actualKey === 'under-operation')  underOp++;
+    else if (actualKey === 'under-basic')      underBasic++;
+    else if (actualKey === 'resign-operation') resignOp++;
+    else if (actualKey === 'resign-basic')     resignBasic++;
+
+    // Apply filter
+    if (currentFilter && actualKey !== currentFilter) return;
+
+    const tr = document.createElement('tr');
+    tr.className = `actual-${actualKey}`;
+    tr.dataset.employeeId = emp['Employee ID'] || '';
+    tr.innerHTML = buildRowHTML(emp, calc, actualKey);
+    body.appendChild(tr);
+  });
+
+  $('totalCount').textContent      = total;
+  $('onTrackCount').textContent    = completed;
+  $('trainingCount').textContent   = underOp + underBasic;
+  $('underOpCount').textContent    = underOp;
+  $('underBasicCount').textContent = underBasic;
+  $('overdueCount').textContent    = resignOp + resignBasic;
+  $('resignOpCount').textContent   = resignOp;
+  $('resignBasicCount').textContent = resignBasic;
+}
+
 // ===== DASHBOARD =====
 async function loadDashboard() {
   if (!currentDepartment) return;
@@ -481,53 +600,47 @@ async function loadDashboard() {
     renderEmployeeTable(lastEmployees);
     showMessage(t('loadedCount', { n: lastEmployees.length }));
   } catch (err) {
-    showMessage(err.message, true);
+    if (err.message && err.message.includes('login_required')) {
+      show($('loginPanel'));
+      setPage('home');
+    } else {
+      showMessage(err.message, true);
+    }
   }
 }
 
-function renderEmployeeTable(employees) {
-  let total = employees.length, onTrack = 0, warning = 0, overdue = 0;
-  const body = $('employeeTableBody');
-  body.innerHTML = '';
-
-  employees.forEach(emp => {
-    const calc = emp.calculated || {};
-    if (calc.status === 'On Track') onTrack++;
-    if (calc.status === 'Warning')  warning++;
-    if (calc.status === 'Overdue')  overdue++;
-
-    const tr = document.createElement('tr');
-    tr.className = `status-${String(calc.status || '').toLowerCase().replace(' ', '-')}`;
-    tr.innerHTML = `
-      <td>${emp['Employee ID']   || ''}</td>
-      <td>${emp['Employee Name'] || ''}</td>
-      <td>${emp['Grade']         || ''}</td>
-      <td>${normalizeDateForInput(emp['Operation Start'])}</td>
-      <td>${calc.due_date        || ''}</td>
-      <td>${calc.remaining_days  ?? '-'}</td>
-      <td><span class="badge ${statusClass(calc.status)}">${translateStatus(calc.status || '')}</span></td>
-    `;
-    body.appendChild(tr);
-  });
-
-  $('totalCount').textContent    = total;
-  $('onTrackCount').textContent  = onTrack;
-  $('warningCount').textContent  = warning;
-  $('overdueCount').textContent  = overdue;
+// ===== OPEN EDIT MODAL =====
+async function openEditModal(employeeId) {
+  currentEmployeeId = employeeId;
+  try {
+    const query = getHolidayQuery();
+    const emp = await api(
+      `/api/${currentDepartment}/employees/${encodeURIComponent(employeeId)}${query ? '?' + query : ''}`
+    );
+    fillEditForm(emp);
+    show($('editModal'));
+  } catch (err) {
+    showMessage(err.message, true);
+  }
 }
 
 // ===== CREATE EMPLOYEE =====
 async function createNewEmployee() {
   const payload = {
-    'Employee ID':   $('newEmployeeId').value.trim(),
-    'Employee Name': $('newEmployeeName').value.trim(),
-    'Grade':         $('newGrade').value,
+    'Employee ID':    $('newEmployeeId').value.trim(),
+    'Employee Name':  $('newEmployeeName').value.trim(),
+    'CSA Start Date': $('newCsaStartDate').value,
   };
+  if (!payload['Employee ID']) {
+    showMessage(t('pleaseEnterEmployeeId'), true);
+    return;
+  }
   try {
     await api(`/api/${currentDepartment}/employees`, { method: 'POST', body: JSON.stringify(payload) });
-    $('newEmployeeId').value  = '';
+    $('newEmployeeId').value   = '';
     $('newEmployeeName').value = '';
-    $('newGrade').value        = '';
+    $('newCsaStartDate').value = '';
+    closeRegisterModal();
     showMessage(t('created'));
     loadDashboard();
   } catch (err) {
@@ -537,20 +650,9 @@ async function createNewEmployee() {
 
 // ===== SEARCH EMPLOYEE =====
 async function searchEmployee() {
-  currentEmployeeId = $('searchEmployeeId').value.trim();
-  if (!currentEmployeeId) return showMessage(t('pleaseEnterEmployeeId'), true);
-  try {
-    const query = getHolidayQuery();
-    const emp = await api(
-      `/api/${currentDepartment}/employees/${encodeURIComponent(currentEmployeeId)}${query ? '?' + query : ''}`
-    );
-    fillEditForm(emp);
-    show($('editForm'));
-    showMessage(t('loaded'));
-  } catch (err) {
-    hide($('editForm'));
-    showMessage(err.message, true);
-  }
+  const empId = $('searchEmployeeId').value.trim();
+  if (!empId) return showMessage(t('pleaseEnterEmployeeId'), true);
+  await openEditModal(empId);
 }
 
 // ===== EDIT FORM =====
@@ -570,11 +672,11 @@ function fillEditForm(emp) {
 
   const calc = emp.calculated || {};
   lastCalc = calc;
-  $('statusBadge').textContent  = translateStatus(calc.status || '');
-  $('statusBadge').className    = `badge ${statusClass(calc.status)}`;
+  $('statusBadge').textContent   = t(STATUS_KEY_MAP[computeActualStatus(emp, calc)] || '');
+  $('statusBadge').className     = `badge ${statusBadgeClass(computeActualStatus(emp, calc))}`;
   $('remainingDays').textContent = calc.remaining_days ?? '-';
-  $('progressBar').style.width  = `${calc.progress || 0}%`;
-  $('dueDateText').textContent  = `${t('dueDate')}: ${calc.due_date || '-'}`;
+  $('progressBar').style.width   = `${calc.progress || 0}%`;
+  $('dueDateText').textContent   = `${t('dueDate')}: ${calc.due_date || '-'}`;
 }
 
 async function saveEditForm(event) {
@@ -603,7 +705,41 @@ async function init() {
   initTheme();
   initLang();
   initAdmin();
+  initRegisterModal();
+  initEditModal();
 
+  // Status filter
+  $('statusFilter').onchange = () => {
+    currentFilter = $('statusFilter').value;
+    renderEmployeeTable(lastEmployees);
+  };
+
+  // Holiday add button
+  $('addHolidayBtn').onclick = () => {
+    const value = $('holidayInput').value;
+    if (value && !holidays.includes(value)) {
+      holidays.push(value);
+      holidays.sort();
+      localStorage.setItem('specialHolidays', JSON.stringify(holidays));
+      $('holidayInput').value = '';
+      renderHolidays();
+    }
+  };
+
+  // Navigation buttons
+  $('backHomeBtn').onclick = () => setPage('home');
+  $('refreshBtn').onclick  = loadDashboard;
+  $('searchBtn').onclick   = searchEmployee;
+
+  // Row edit button (event delegation)
+  $('employeeTableBody').addEventListener('click', (e) => {
+    const btn = e.target.closest('.btn-row-edit');
+    if (!btn) return;
+    const empId = btn.dataset.id;
+    if (empId) openEditModal(empId);
+  });
+
+  // Check auth
   const me = await api('/api/me');
   if (!me.authenticated) {
     show($('loginPanel'));
@@ -615,29 +751,11 @@ async function init() {
   show($('adminBtn'));
 
   departments = await api('/api/departments');
+  if (!Array.isArray(departments)) departments = [];
   renderDepartmentButtons();
   renderHolidays();
-  show($('homePage'));
+  setPage('home');
 }
-
-// ===== EVENT LISTENERS =====
-$('addHolidayBtn').onclick = () => {
-  const value = $('holidayInput').value;
-  if (value && !holidays.includes(value)) {
-    holidays.push(value);
-    holidays.sort();
-    localStorage.setItem('specialHolidays', JSON.stringify(holidays));
-    $('holidayInput').value = '';
-    renderHolidays();
-  }
-};
-
-$('backHomeBtn').onclick  = () => setPage('home');
-$('refreshBtn').onclick   = loadDashboard;
-$('createBtn').onclick    = createNewEmployee;
-$('searchBtn').onclick    = searchEmployee;
-$('editForm').onsubmit    = saveEditForm;
-$('closeEditBtn').onclick = () => hide($('editForm'));
 
 init().catch(err => {
   console.error(err);
