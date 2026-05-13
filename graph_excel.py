@@ -1,6 +1,9 @@
 import base64
+import urllib.parse
+from contextlib import contextmanager
+
 import requests
-from config import EXCEL_COLUMNS, EXCEL_TABLE_NAME
+from config import EXCEL_COLUMNS, EXCEL_TABLE_NAME, ONEDRIVE_FOLDER
 
 GRAPH_ROOT = "https://graph.microsoft.com/v1.0"
 
@@ -56,35 +59,107 @@ def encode_sharing_url(share_url):
     return "u!" + encoded
 
 
-def get_drive_item(token, share_url):
-    share_id = encode_sharing_url(share_url)
-    return graph_request(
-        token,
-        "GET",
-        f"/shares/{share_id}/driveItem",
-        headers={**_headers(token), "Prefer": "redeemSharingLinkIfNecessary"},
-    )
+def get_drive_item(token, department):
+    """
+    Locate the workbook. Access priority:
+    1. Sharing URL  — always points to the exact file configured in DEPARTMENTS
+    2. Direct path  — fallback (unreliable when multiple files share the same name)
+    3. Drive search — last resort
+    """
+    workbook_name = department["workbook_name"]
+    share_url     = department["share_url"]
 
+    # ── 1. Sharing URL (most precise — unique per file) ───────────────────────
+    try:
+        share_id = encode_sharing_url(share_url)
+        item = graph_request(
+            token,
+            "GET",
+            f"/shares/{share_id}/driveItem",
+            headers={"Prefer": "redeemSharingLinkIfNecessary"},
+        )
+        print(f"[DRIVE] ✓ sharing URL: {workbook_name}", flush=True)
+        return item
+    except GraphExcelError as e:
+        print(f"[DRIVE] sharing URL failed: {e}", flush=True)
+
+    # ── 2. Direct path-based access ──────────────────────────────────────────
+    try:
+        file_path    = f"{ONEDRIVE_FOLDER}/{workbook_name}"
+        encoded_path = urllib.parse.quote(file_path, safe="/")
+        item = graph_request(token, "GET", f"/me/drive/root:/{encoded_path}:")
+        print(f"[DRIVE] ✓ path: {workbook_name}", flush=True)
+        return item
+    except GraphExcelError as e:
+        print(f"[DRIVE] path failed: {e}", flush=True)
+
+    # ── 3. Search in user's own drive ─────────────────────────────────────────
+    q    = urllib.parse.quote(workbook_name, safe="")
+    data = graph_request(token, "GET", f"/me/drive/root/search(q='{q}')")
+    for item in (data.get("value") or []):
+        if item.get("name") == workbook_name and "file" in item:
+            print(f"[DRIVE] ✓ search: {workbook_name}", flush=True)
+            return item
+    raise GraphExcelError(f"Cannot locate workbook: {workbook_name}")
+
+
+# ── Workbook session context manager ─────────────────────────────────────────
+
+@contextmanager
+def _workbook_session(token, drive_id, item_id):
+    """
+    Create a persistent workbook session for write operations.
+    Sessions give proper write access and avoid the 'cannot perform operation' 403.
+    Falls back to no-session mode if createSession itself fails.
+    """
+    session_id = None
+    url_base   = f"/drives/{drive_id}/items/{item_id}/workbook"
+    try:
+        resp       = graph_request(token, "POST", f"{url_base}/createSession",
+                                   json={"persistChanges": True})
+        session_id = resp.get("id", "")
+        print(f"[SESSION] created {session_id[:20]}…", flush=True)
+    except GraphExcelError as exc:
+        print(f"[SESSION] createSession failed ({exc}) — writing without session", flush=True)
+
+    try:
+        yield {"workbook-session-id": session_id} if session_id else {}
+    finally:
+        if session_id:
+            try:
+                graph_request(token, "POST", f"{url_base}/closeSession",
+                              headers={"workbook-session-id": session_id})
+                print("[SESSION] closed", flush=True)
+            except GraphExcelError:
+                pass
+
+
+# ── Row helpers ───────────────────────────────────────────────────────────────
 
 def row_to_object(values):
     values = values or []
-    return {column: values[index] if index < len(values) else "" for index, column in enumerate(EXCEL_COLUMNS)}
+    return {col: values[i] if i < len(values) else ""
+            for i, col in enumerate(EXCEL_COLUMNS)}
 
 
 def object_to_row(record):
-    return [record.get(column, "") for column in EXCEL_COLUMNS]
+    return [record.get(col, "") for col in EXCEL_COLUMNS]
 
+
+# ── Table read ────────────────────────────────────────────────────────────────
 
 def get_table_rows(token, department):
-    item = get_drive_item(token, department["share_url"])
+    item     = get_drive_item(token, department)
     drive_id = item["parentReference"]["driveId"]
-    item_id = item["id"]
-    data = graph_request(token, "GET", f"/drives/{drive_id}/items/{item_id}/workbook/tables/{EXCEL_TABLE_NAME}/rows")
-    rows = data.get("value", [])
+    item_id  = item["id"]
+    data     = graph_request(token, "GET",
+                             f"/drives/{drive_id}/items/{item_id}"
+                             f"/workbook/tables/{EXCEL_TABLE_NAME}/rows")
+    rows      = data.get("value", [])
     employees = []
     for index, row in enumerate(rows):
         values = (row.get("values") or [[]])[0]
-        obj = row_to_object(values)
+        obj    = row_to_object(values)
         emp_id = str(obj.get("Employee ID", "")).strip()
         if emp_id and emp_id != "0":
             obj["_row_index"] = index
@@ -94,19 +169,50 @@ def get_table_rows(token, department):
 
 def find_employee(token, department, employee_id):
     _, employees = get_table_rows(token, department)
-    employee_id = str(employee_id or "").strip()
-    for employee in employees:
-        if str(employee.get("Employee ID", "")).strip() == employee_id:
-            return employee
+    employee_id  = str(employee_id or "").strip()
+    for emp in employees:
+        if str(emp.get("Employee ID", "")).strip() == employee_id:
+            return emp
     return None
 
 
+# ── Write via Workbook API (with session) ─────────────────────────────────────
+
+def _write_row_add(token, drive_id, item_id, row_values):
+    """Add a new row to the table — uses a workbook session for proper write access."""
+    with _workbook_session(token, drive_id, item_id) as sess_hdrs:
+        body = {"index": None, "values": [row_values]}
+        graph_request(
+            token, "POST",
+            f"/drives/{drive_id}/items/{item_id}"
+            f"/workbook/tables/{EXCEL_TABLE_NAME}/rows/add",
+            json=body,
+            headers=sess_hdrs,
+        )
+
+
+def _write_row_patch(token, drive_id, item_id, row_index, row_values):
+    """Update an existing table row range — uses a workbook session."""
+    with _workbook_session(token, drive_id, item_id) as sess_hdrs:
+        body = {"values": [row_values]}
+        graph_request(
+            token, "PATCH",
+            f"/drives/{drive_id}/items/{item_id}"
+            f"/workbook/tables/{EXCEL_TABLE_NAME}"
+            f"/rows/itemAt(index={row_index})/range",
+            json=body,
+            headers=sess_hdrs,
+        )
+
+
+# ── Public CRUD ───────────────────────────────────────────────────────────────
+
 def create_employee(token, department, record):
     item, employees = get_table_rows(token, department)
-    employee_id = str(record.get("Employee ID", "")).strip()
+    employee_id     = str(record.get("Employee ID", "")).strip()
     if not employee_id:
         raise GraphExcelError("Employee ID is required")
-    if any(str(emp.get("Employee ID", "")).strip() == employee_id for emp in employees):
+    if any(str(e.get("Employee ID", "")).strip() == employee_id for e in employees):
         raise GraphExcelError(f"Employee ID {employee_id} already exists")
 
     current_ids = []
@@ -117,15 +223,14 @@ def create_employee(token, department, record):
             pass
     next_id = max(current_ids or [0]) + 1
 
-    new_record = {column: "" for column in EXCEL_COLUMNS}
+    new_record                  = {col: "" for col in EXCEL_COLUMNS}
     new_record.update(record)
-    new_record["ID"] = next_id
+    new_record["ID"]            = next_id
     new_record["Actual Status"] = "Under basic"
 
     drive_id = item["parentReference"]["driveId"]
-    item_id = item["id"]
-    body = {"index": None, "values": [object_to_row(new_record)]}
-    graph_request(token, "POST", f"/drives/{drive_id}/items/{item_id}/workbook/tables/{EXCEL_TABLE_NAME}/rows/add", json=body)
+    item_id  = item["id"]
+    _write_row_add(token, drive_id, item_id, object_to_row(new_record))
     return new_record
 
 
@@ -139,20 +244,11 @@ def update_employee(token, department, employee_id, patch_record):
     if not employee:
         raise GraphExcelError("Employee not found")
 
-    merged = {column: employee.get(column, "") for column in EXCEL_COLUMNS}
+    merged = {col: employee.get(col, "") for col in EXCEL_COLUMNS}
     merged.update({k: v for k, v in patch_record.items() if k in EXCEL_COLUMNS})
-    merged["Employee ID"] = employee.get("Employee ID", employee_id)
 
-    drive_id = item["parentReference"]["driveId"]
-    item_id = item["id"]
+    drive_id  = item["parentReference"]["driveId"]
+    item_id   = item["id"]
     row_index = employee["_row_index"]
-
-    body = {"values": [object_to_row(merged)]}
-    # Update the exact Excel table row range. This avoids creating duplicate rows.
-    graph_request(
-        token,
-        "PATCH",
-        f"/drives/{drive_id}/items/{item_id}/workbook/tables/{EXCEL_TABLE_NAME}/rows/itemAt(index={row_index})/range",
-        json=body,
-    )
+    _write_row_patch(token, drive_id, item_id, row_index, object_to_row(merged))
     return merged
