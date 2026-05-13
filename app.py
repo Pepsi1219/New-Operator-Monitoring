@@ -31,33 +31,51 @@ app = Flask(__name__)
 app.secret_key = FLASK_SECRET_KEY
 
 
-# Server-side filesystem session
-# Local: use .flask_session
-# Vercel: use /tmp because serverless filesystem should not write to project directory
+# ---------------------------------------------------------------------------
+# Session setup
+# ---------------------------------------------------------------------------
+# Local development: use filesystem session
+# Vercel production: use Redis session because Vercel serverless filesystem
+# is not reliable for persistent session/token cache.
 IS_VERCEL = os.environ.get("VERCEL") == "1"
 
-# Server-side filesystem session
-# Local: use project folder
-# Vercel: use /tmp because /var/task is read-only
-IS_VERCEL = os.environ.get("VERCEL") == "1"
+if IS_VERCEL:
+    redis_url = (
+        os.environ.get("REDIS_URL")
+        or os.environ.get("KV_URL")
+    )
 
-_SESSION_DIR = (
-    os.path.join("/tmp", "flask_session")
-    if IS_VERCEL
-    else os.path.join(os.path.dirname(__file__), ".flask_session")
-)
+    if not redis_url:
+        raise RuntimeError(
+            "Missing REDIS_URL or KV_URL. Please configure Redis/Vercel KV in Vercel Environment Variables."
+        )
 
-os.makedirs(_SESSION_DIR, exist_ok=True)
+    app.config.update(
+        SESSION_TYPE="redis",
+        SESSION_REDIS=Redis.from_url(redis_url),
+        SESSION_PERMANENT=True,
+        PERMANENT_SESSION_LIFETIME=timedelta(days=30),
+        SESSION_COOKIE_HTTPONLY=True,
+        SESSION_COOKIE_SAMESITE="Lax",
+        SESSION_COOKIE_SECURE=True,
+        SESSION_USE_SIGNER=True,
+        SESSION_KEY_PREFIX="new-operator-monitoring:",
+    )
 
-app.config.update(
-    SESSION_TYPE="filesystem",
-    SESSION_FILE_DIR=_SESSION_DIR,
-    SESSION_FILE_THRESHOLD=500,
-    PERMANENT_SESSION_LIFETIME=timedelta(days=30),
-    SESSION_COOKIE_HTTPONLY=True,
-    SESSION_COOKIE_SAMESITE="Lax",
-    SESSION_COOKIE_SECURE=IS_VERCEL,
-)
+else:
+    _SESSION_DIR = os.path.join(os.path.dirname(__file__), ".flask_session")
+    os.makedirs(_SESSION_DIR, exist_ok=True)
+
+    app.config.update(
+        SESSION_TYPE="filesystem",
+        SESSION_FILE_DIR=_SESSION_DIR,
+        SESSION_FILE_THRESHOLD=500,
+        SESSION_PERMANENT=True,
+        PERMANENT_SESSION_LIFETIME=timedelta(days=30),
+        SESSION_COOKIE_HTTPONLY=True,
+        SESSION_COOKIE_SAMESITE="Lax",
+        SESSION_COOKIE_SECURE=False,
+    )
 
 Session(app)
 
