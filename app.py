@@ -1,6 +1,5 @@
 import os
 from datetime import timedelta
-from redis import Redis
 
 from flask import Flask, jsonify, redirect, render_template, request, session, url_for
 from flask_session import Session
@@ -30,53 +29,19 @@ from graph_excel import (
 app = Flask(__name__)
 app.secret_key = FLASK_SECRET_KEY
 
+# Server-side filesystem session — keeps MSAL cache off the cookie and
+# removes the 4 KB cookie-size limit that would drop the refresh token.
+_SESSION_DIR = os.path.join(os.path.dirname(__file__), ".flask_session")
+os.makedirs(_SESSION_DIR, exist_ok=True)
 
-# ---------------------------------------------------------------------------
-# Session setup
-# ---------------------------------------------------------------------------
-# Local development: use filesystem session
-# Vercel production: use Redis session because Vercel serverless filesystem
-# is not reliable for persistent session/token cache.
-IS_VERCEL = os.environ.get("VERCEL") == "1"
-
-if IS_VERCEL:
-    redis_url = (
-        os.environ.get("REDIS_URL")
-        or os.environ.get("KV_URL")
-    )
-
-    if not redis_url:
-        raise RuntimeError(
-            "Missing REDIS_URL or KV_URL. Please configure Redis/Vercel KV in Vercel Environment Variables."
-        )
-
-    app.config.update(
-        SESSION_TYPE="redis",
-        SESSION_REDIS=Redis.from_url(redis_url),
-        SESSION_PERMANENT=True,
-        PERMANENT_SESSION_LIFETIME=timedelta(days=30),
-        SESSION_COOKIE_HTTPONLY=True,
-        SESSION_COOKIE_SAMESITE="Lax",
-        SESSION_COOKIE_SECURE=True,
-        SESSION_USE_SIGNER=True,
-        SESSION_KEY_PREFIX="new-operator-monitoring:",
-    )
-
-else:
-    _SESSION_DIR = os.path.join(os.path.dirname(__file__), ".flask_session")
-    os.makedirs(_SESSION_DIR, exist_ok=True)
-
-    app.config.update(
-        SESSION_TYPE="filesystem",
-        SESSION_FILE_DIR=_SESSION_DIR,
-        SESSION_FILE_THRESHOLD=500,
-        SESSION_PERMANENT=True,
-        PERMANENT_SESSION_LIFETIME=timedelta(days=30),
-        SESSION_COOKIE_HTTPONLY=True,
-        SESSION_COOKIE_SAMESITE="Lax",
-        SESSION_COOKIE_SECURE=False,
-    )
-
+app.config.update(
+    SESSION_TYPE="filesystem",
+    SESSION_FILE_DIR=_SESSION_DIR,
+    SESSION_FILE_THRESHOLD=500,          # max session files before cleanup
+    PERMANENT_SESSION_LIFETIME=timedelta(days=30),
+    SESSION_COOKIE_HTTPONLY=True,
+    SESSION_COOKIE_SAMESITE="Lax",      # required for OAuth redirect flow
+)
 Session(app)
 
 
@@ -220,25 +185,61 @@ def login():
 
 @app.route("/auth/callback")
 def auth_callback():
+    # ── Step 1: check for Azure AD error in the redirect ──────────────────
+    error = request.args.get("error")
+    if error:
+        desc = request.args.get("error_description", "No description provided")
+        print(f"[AUTH] Azure AD returned error: {error} | {desc}")
+        return (
+            f"<h2>Authentication Error</h2>"
+            f"<p><b>{error}</b></p><p>{desc}</p>"
+            f"<a href='/login'>Try again</a>"
+        ), 400
+
     code = request.args.get("code")
     if not code:
-        return "Missing authorization code", 400
+        print(f"[AUTH] Callback hit with no code. Query args: {dict(request.args)}")
+        return "<h2>Missing authorization code</h2><a href='/login'>Try again</a>", 400
 
-    cache = _load_cache()
-    msal_app = _build_msal_app(cache)
-    result = msal_app.acquire_token_by_authorization_code(
-        code,
-        scopes=SCOPES,
-        redirect_uri=REDIRECT_URI,
-    )
+    # ── Step 2: exchange auth-code for tokens ──────────────────────────────
+    print(f"[AUTH] Code received. Exchanging for token (redirect_uri={REDIRECT_URI})...")
+    try:
+        cache    = _load_cache()
+        msal_app = _build_msal_app(cache)
+        result   = msal_app.acquire_token_by_authorization_code(
+            code,
+            scopes=SCOPES,
+            redirect_uri=REDIRECT_URI,
+        )
+    except Exception as exc:
+        import traceback; traceback.print_exc()
+        return f"<h2>Token Exchange Exception</h2><p>{exc}</p><a href='/login'>Try again</a>", 500
 
     if "access_token" not in result:
-        return jsonify(result), 400
+        err  = result.get("error", "unknown_error")
+        desc = result.get("error_description", str(result))
+        print(f"[AUTH] Token exchange failed: {err} | {desc}")
+        return (
+            f"<h2>Token Error</h2>"
+            f"<p><b>{err}</b></p><p>{desc}</p>"
+            f"<a href='/login'>Try again</a>"
+        ), 400
 
-    # Persist the full MSAL cache (access token + refresh token) server-side.
+    # ── Step 3: persist cache + session ────────────────────────────────────
     _save_cache(cache)
-    session["user"] = result.get("id_token_claims", {})
+
+    # id_token_claims can be None/{} — guarantee session["user"] is always truthy.
+    claims = result.get("id_token_claims") or {}
+    session["user"] = {
+        "name":  claims.get("name") or claims.get("preferred_username") or "User",
+        "email": claims.get("preferred_username") or claims.get("upn") or "",
+        "oid":   claims.get("oid") or claims.get("sub") or "unknown",
+        **claims,
+    }
     session.permanent = True        # 30-day persistent cookie
+
+    user_name = session["user"].get("name", "?")
+    print(f"[AUTH] Login successful. User: {user_name}. Redirecting to index.")
     return redirect(url_for("index"))
 
 
@@ -254,8 +255,15 @@ def logout():
 
 @app.route("/api/me")
 def api_me():
-    user = session.get("user")
-    return jsonify({"authenticated": bool(user), "user": user})
+    # Primary auth check: does the MSAL cache contain a valid account?
+    # More reliable than checking session["user"] which can be falsy if
+    # Azure AD returns empty id_token_claims.
+    print(f"[API/ME] Session keys present: {list(session.keys())}")
+    token = get_valid_token()
+    user  = session.get("user")
+    authenticated = bool(token) or bool(user)
+    print(f"[API/ME] authenticated={authenticated}  has_token={bool(token)}  has_user={bool(user)}")
+    return jsonify({"authenticated": authenticated, "user": user})
 
 
 @app.route("/api/departments")
@@ -366,4 +374,6 @@ def api_update_employee(department_key, employee_id):
 
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5000, debug=True)
+    # use_reloader=False prevents the Werkzeug reloader from spawning a second
+    # process that can cause session-file conflicts on Windows.
+    app.run(host="0.0.0.0", port=5000, debug=True, use_reloader=False)
