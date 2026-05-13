@@ -1,5 +1,6 @@
 import os
 from datetime import timedelta
+from redis import Redis
 
 from flask import Flask, jsonify, redirect, render_template, request, session, url_for
 from flask_session import Session
